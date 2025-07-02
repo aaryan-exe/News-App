@@ -1,33 +1,68 @@
 import customtkinter as ctk
 import requests
 
-api_key="your_api_key"
-
-
-app=ctk.CTk()
+app = ctk.CTk()
 app.title("News App")
 app.geometry("1000x600")
-app.resizable("false","false")
+app._set_appearance_mode("dark")
+# app.resizable(False, False)
 
-frame=ctk.CTkFrame(master=app, fg_color="#242424")
-frame.pack(pady=2, fill="x")
+headerframe = ctk.CTkFrame(master=app, fg_color="transparent", height=100)
+headerframe.pack(pady=2, fill="both")
 
-AppName=ctk.CTkLabel(master=frame, text="Latest News", font=ctk.CTkFont(family="SF Pro", size=32, weight="bold"))
-AppName.pack(side='left',padx=20, pady=20)
+# Left frame for Breaking News label
+left_frame = ctk.CTkFrame(master=headerframe, fg_color="transparent")
+left_frame.pack(side="left", padx=20, pady=20)
 
-options=["India", "Spain", "Australia"]
-dropdown=ctk.CTkOptionMenu(master=frame, values=options, width=150, height=30, font=("SF PRO", 14) )
-dropdown.pack(side="right", padx=20, pady=20)
+AppName = ctk.CTkLabel(
+    master=left_frame,
+    text="Breaking News",
+    font=ctk.CTkFont(family="SF Pro", size=32, weight="bold"),
+)
+AppName.pack()
 
-#Trial news
-url=f"https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}"
-response=requests.get(url)
-data=response.json()
+# Right frame for dropdown menu (if any)
+right_frame = ctk.CTkFrame(master=headerframe, fg_color="transparent")
+right_frame.pack(side="right", padx=20, pady=20)
+
+# Place SearchBar and SearchBtn inside center_frame instead of right_frame
+SearchBar = ctk.CTkTextbox(master=right_frame, height=30, width=300)
+SearchBar.pack(side="left", padx=(0, 10), pady=10)
+
+SearchBtn = ctk.CTkButton(master=right_frame, text="Search")
+SearchBtn.pack(side="right", pady=10)
 
 
-title = data["articles"][0]["title"]
+mainFrame=ctk.CTkScrollableFrame(app,fg_color="transparent")
+mainFrame.pack(fill='both',expand='True', pady=20)
+# Trial news
+api_key = "Your_Api_Key"  
+url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}"
+response = requests.get(url)
+data = response.json()
 
-TitleLbl=ctk.CTkLabel(app, text=title,  font=ctk.CTkFont(family="SF Pro", size=18), wraplength=800, justify="left")
-TitleLbl.pack(anchor='w',padx=20, pady=20)
 
+
+for i in range(10):
+    title = data["articles"][i]["title"]
+    author=data["articles"][i]["author"]
+    News1Frame=ctk.CTkFrame(master=mainFrame,)
+    News1Frame.pack(anchor="w",fill="x", padx=10, pady=10)
+
+    TitleLbl = ctk.CTkLabel(
+        News1Frame,
+        text=title,
+        font=ctk.CTkFont(family="SF Pro", size=20),
+        justify="left",
+        # wraplength=900,
+    )
+    TitleLbl.pack(anchor="w", padx=20, pady=(10,2))
+
+    AuthorLbl=ctk.CTkLabel(master=News1Frame,
+                      text=f"author: {author}",
+                      font=ctk.CTkFont(family="SF Pro", size=12),
+                      text_color="blue",
+                      justify="left"
+                      )
+    AuthorLbl.pack(anchor="w", padx=20, pady=(4,10))
 app.mainloop()
