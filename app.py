@@ -10,7 +10,7 @@ def load_news():
         widget.destroy() 
     search=SearchBar.get("1.0", "end-1c").strip()
     print("search1:",search)
-    api_key = "Your_API_Key"
+    api_key = "Your_Api_Key" 
     if search=="":
         url= url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={api_key}"
     else: 
@@ -25,7 +25,7 @@ def load_news():
         description = data["articles"][i]["description"]
         articleUrl=data["articles"][i]["url"]
 
-        News1Frame = ctk.CTkFrame(master=newsContainerFrame, fg_color="white", corner_radius=12)
+        News1Frame = ctk.CTkFrame(master=newsContainerFrame, fg_color="#F8F8F8", corner_radius=12,border_width=1, border_color="black")
         News1Frame.pack(anchor="w", fill="x", padx=10, pady=10)
 
         TitleLbl = ctk.CTkLabel(
@@ -102,14 +102,15 @@ right_frame = ctk.CTkFrame(master=headerframe, fg_color="transparent")
 right_frame.pack(side="right", padx=20, pady=20)
 
 # Place SearchBar and SearchBtn inside center_frame instead of right_frame
-SearchBar = ctk.CTkTextbox(master=right_frame, height=30, width=250, fg_color="white", text_color="black")
+SearchBar = ctk.CTkTextbox(master=right_frame, height=30, width=250, fg_color="white", text_color="black", border_width=1, border_color="black")
 SearchBar.pack(side="left", padx=(0, 10), pady=10)
 
-SearchBtn = ctk.CTkButton(master=right_frame, text="Search", fg_color="black", text_color="white", width=80, command=load_news)
+SearchBtn = ctk.CTkButton(master=right_frame, text="Search", fg_color="black", text_color="white", width=80, command=load_news, hover_color="#282828")
 SearchBtn.pack(side="right", pady=10)
 
 newsContainerFrame = ctk.CTkFrame(master=mainFrame, fg_color="transparent")
 newsContainerFrame.pack(fill='both', expand=True)
+
 
 load_news()
 app.mainloop()
