@@ -111,6 +111,6 @@ SearchBtn.pack(side="right", pady=10)
 newsContainerFrame = ctk.CTkFrame(master=mainFrame, fg_color="transparent")
 newsContainerFrame.pack(fill='both', expand=True)
 
-
 load_news()
+
 app.mainloop()
